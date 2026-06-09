@@ -1,0 +1,16 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+backend/.env
+
+# Angular
+frontend/node_modules/
+frontend/dist/
+.angular/
+
+# System
+.DS_Store
