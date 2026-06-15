@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.auth.password_reset_model import PasswordResetToken  # noqa: F401
 from app.auth.routes import router as auth_router
 from app.config import get_settings
 from app.database import Base, engine

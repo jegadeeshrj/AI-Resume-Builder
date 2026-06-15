@@ -290,6 +290,12 @@ p {
   margin: 30px auto 0;
 }
 
+.auth-helper-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 0 16px;
+}
+
 .form-panel {
   padding: 26px;
 }

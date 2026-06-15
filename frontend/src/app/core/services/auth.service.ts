@@ -17,6 +17,18 @@ export class AuthService {
     return this.http.post<User>(`${this.apiUrl}/register`, payload);
   }
 
+  forgotPassword(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, {
+      token,
+      new_password: newPassword,
+      confirm_password: confirmPassword
+    });
+  }
+
   login(payload: { email: string; password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, payload).pipe(
       tap((response) => {

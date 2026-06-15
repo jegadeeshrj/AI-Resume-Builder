@@ -2,7 +2,9 @@ import { Routes } from '@angular/router';
 
 import { authGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './modules/auth/login/login.component';
+import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-password.component';
 import { RegisterComponent } from './modules/auth/register/register.component';
+import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { CertificationsComponent } from './modules/resume/certifications/certifications.component';
 import { EducationComponent } from './modules/resume/education/education.component';
@@ -18,6 +20,8 @@ export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'resumes', component: ResumeListComponent, canActivate: [authGuard] },
   { path: 'resumes/create', component: ResumeCreateComponent, canActivate: [authGuard] },
