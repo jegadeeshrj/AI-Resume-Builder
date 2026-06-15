@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.auth.password_reset_model import PasswordResetToken  # noqa: F401
 from app.auth.routes import router as auth_router
 from app.config import get_settings
 from app.database import Base, engine
+from app.resumes.routes import router as resumes_router
+from app.resumes import models as resume_models  # noqa: F401
 from app.users.models import User  # noqa: F401
 
 
@@ -24,6 +27,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(resumes_router)
 
 
 @app.get("/health")

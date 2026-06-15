@@ -17,20 +17,41 @@ export class AuthService {
     return this.http.post<User>(`${this.apiUrl}/register`, payload);
   }
 
+  forgotPassword(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string, confirmPassword: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, {
+      token,
+      new_password: newPassword,
+      confirm_password: confirmPassword
+    });
+  }
+
   login(payload: { email: string; password: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, payload).pipe(
       tap((response) => {
         localStorage.setItem(this.tokenKey, response.access_token);
+        localStorage.setItem('ai_resume_builder_user_name', response.user.full_name);
       })
     );
   }
 
   me(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/me`);
+    return this.http.get<User>(`${this.apiUrl}/me`).pipe(
+      tap((user) => {
+        localStorage.setItem('ai_resume_builder_user_name', user.full_name);
+      })
+    );
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  getUserName(): string {
+    return localStorage.getItem('ai_resume_builder_user_name') ?? 'Account';
   }
 
   isLoggedIn(): boolean {
@@ -39,6 +60,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('ai_resume_builder_user_name');
     this.router.navigate(['/login']);
   }
 }

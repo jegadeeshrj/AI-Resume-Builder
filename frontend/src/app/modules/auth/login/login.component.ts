@@ -35,6 +35,10 @@ import { AuthService } from '../../../core/services/auth.service';
             }
           </div>
 
+          <div class="auth-helper-row">
+            <a routerLink="/forgot-password">Forgot Password?</a>
+          </div>
+
           <button class="button button-primary" type="submit" [disabled]="form.invalid || loading">
             {{ loading ? 'Logging in...' : 'Login' }}
           </button>

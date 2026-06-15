@@ -9,6 +9,12 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
     frontend_origin: str = "http://localhost:4200"
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_username: str = ""
+    smtp_password: str = ""
+    smtp_from_email: str = ""
+    frontend_reset_password_url: str = "http://localhost:4200/reset-password"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

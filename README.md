@@ -91,3 +91,35 @@ Current user:
 GET http://localhost:8000/auth/me
 Authorization: Bearer YOUR_ACCESS_TOKEN
 ```
+
+## Forgot Password Testing
+
+For local development, leave SMTP values empty in `backend/.env`. The backend will print the reset link in the console.
+
+Request reset link:
+
+```text
+POST http://localhost:8000/auth/forgot-password
+```
+
+```json
+{
+  "email": "demo@example.com"
+}
+```
+
+Open the printed link, or call reset directly:
+
+```text
+POST http://localhost:8000/auth/reset-password
+```
+
+```json
+{
+  "token": "TOKEN_FROM_RESET_LINK",
+  "new_password": "NewPassword@123",
+  "confirm_password": "NewPassword@123"
+}
+```
+
+Manual table SQL is available in `backend/create_password_reset_tokens_table.sql`. The app also creates the table automatically on startup for local development.
