@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "AI Resume Builder - Phase 2 Resume Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8000" },
+    { "key": "access_token", "value": "" },
+    { "key": "resume_id", "value": "1" },
+    { "key": "education_id", "value": "1" },
+    { "key": "experience_id", "value": "1" },
+    { "key": "skill_id", "value": "1" },
+    { "key": "project_id", "value": "1" },
+    { "key": "certification_id", "value": "1" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Create Resume",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/resumes",
+        "body": { "mode": "raw", "raw": "{\n  \"resume_title\": \"Backend Developer Resume\",\n  \"professional_summary\": \"Python developer with FastAPI and PostgreSQL experience.\"\n}" }
+      }
+    },
+    { "name": "List Resumes", "request": { "method": "GET", "url": "{{base_url}}/resumes" } },
+    { "name": "Get Resume Details", "request": { "method": "GET", "url": "{{base_url}}/resumes/{{resume_id}}" } },
+    {
+      "name": "Update Resume",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/resumes/{{resume_id}}",
+        "body": { "mode": "raw", "raw": "{\n  \"resume_title\": \"Senior Backend Developer Resume\"\n}" }
+      }
+    },
+    {
+      "name": "Create Personal Details",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/resumes/{{resume_id}}/personal-details",
+        "body": { "mode": "raw", "raw": "{\n  \"first_name\": \"Alex\",\n  \"last_name\": \"Taylor\",\n  \"email\": \"alex@example.com\",\n  \"phone\": \"+1 555 123 4567\",\n  \"linkedin_url\": \"https://linkedin.com/in/alex\",\n  \"github_url\": \"https://github.com/alex\",\n  \"portfolio_url\": \"https://alex.dev\",\n  \"city\": \"Austin\",\n  \"country\": \"USA\"\n}" }
+      }
+    },
+    { "name": "Get Personal Details", "request": { "method": "GET", "url": "{{base_url}}/resumes/{{resume_id}}/personal-details" } },
+    {
+      "name": "Add Education",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/resumes/{{resume_id}}/education",
+        "body": { "mode": "raw", "raw": "{\n  \"degree\": \"B.Tech\",\n  \"institution\": \"Example University\",\n  \"field_of_study\": \"Computer Science\",\n  \"start_year\": 2018,\n  \"end_year\": 2022\n}" }
+      }
+    },
+    { "name": "List Education", "request": { "method": "GET", "url": "{{base_url}}/resumes/{{resume_id}}/education" } },
+    {
+      "name": "Add Experience",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/resumes/{{resume_id}}/experience",
+        "body": { "mode": "raw", "raw": "{\n  \"company_name\": \"Example Inc\",\n  \"job_title\": \"Software Engineer\",\n  \"employment_type\": \"Full-time\",\n  \"start_date\": \"2023-01-01\",\n  \"currently_working\": true,\n  \"description\": \"Built APIs and database-backed services.\"\n}" }
+      }
+    },
+    {
+      "name": "Add Skill",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/resumes/{{resume_id}}/skills",
+        "body": { "mode": "raw", "raw": "{\n  \"skill_name\": \"FastAPI\",\n  \"skill_level\": \"Advanced\"\n}" }
+      }
+    },
+    {
+      "name": "Add Project",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/resumes/{{resume_id}}/projects",
+        "body": { "mode": "raw", "raw": "{\n  \"project_name\": \"Resume Builder\",\n  \"technologies\": \"Angular, FastAPI, PostgreSQL\",\n  \"project_url\": \"https://example.com\",\n  \"description\": \"Built resume profile management.\"\n}" }
+      }
+    },
+    {
+      "name": "Add Certification",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/resumes/{{resume_id}}/certifications",
+        "body": { "mode": "raw", "raw": "{\n  \"certification_name\": \"Cloud Practitioner\",\n  \"issuing_organization\": \"Example Cloud\",\n  \"issue_date\": \"2024-01-15\",\n  \"credential_url\": \"https://example.com/cert\"\n}" }
+      }
+    },
+    { "name": "Delete Resume", "request": { "method": "DELETE", "url": "{{base_url}}/resumes/{{resume_id}}" } }
+  ]
+}
