@@ -16,8 +16,21 @@ import { ResumeService } from '../services/resume.service';
       @if (resume) {
         <section class="page-header resume-actions-header">
           <a class="button button-outline" routerLink="/resumes">Back to Resumes</a>
-          <a class="button button-primary" [routerLink]="['/resumes', resume.id, 'personal-details']">Edit</a>
+          <div class="actions">
+            <a class="button button-primary" [routerLink]="['/resumes', resume.id, 'generate']">Generate AI Resume</a>
+            <button class="button button-outline" type="button" (click)="downloadPdf()" [disabled]="!hasGeneratedResume || checkingGeneratedResume || downloading">Download PDF</button>
+            <button class="button button-outline" type="button" (click)="downloadWord()" [disabled]="!hasGeneratedResume || checkingGeneratedResume || downloading">Download Word</button>
+            <a class="button button-outline" [routerLink]="['/resumes', resume.id, 'personal-details']">Edit</a>
+          </div>
         </section>
+
+        @if (!checkingGeneratedResume && !hasGeneratedResume) {
+          <section class="surface-panel"><div class="alert alert-info">Generate the AI resume to enable PDF and Word downloads.</div></section>
+        }
+
+        @if (downloadError) {
+          <section class="surface-panel"><div class="alert alert-danger">{{ downloadError }}</div></section>
+        }
 
         <section class="resume-preview">
           <header class="resume-preview-header">
@@ -104,15 +117,90 @@ export class ResumeViewComponent implements OnInit {
 
   resume?: ResumeDetail;
   serverError = '';
+  downloadError = '';
+  downloading = false;
+  checkingGeneratedResume = true;
+  hasGeneratedResume = false;
 
   ngOnInit(): void {
     const resumeId = Number(this.route.snapshot.paramMap.get('id'));
     this.resumeService.get(resumeId).subscribe({
       next: (resume) => {
         this.resume = resume;
+        this.loadGeneratedResumeStatus(resume.id);
       },
       error: () => {
         this.serverError = 'Resume could not be loaded.';
+        this.checkingGeneratedResume = false;
+      }
+    });
+  }
+
+  downloadPdf(): void {
+    this.download('pdf');
+  }
+
+  downloadWord(): void {
+    this.download('word');
+  }
+
+  private download(type: 'pdf' | 'word'): void {
+    if (!this.resume || !this.hasGeneratedResume) {
+      return;
+    }
+    this.downloading = true;
+    this.downloadError = '';
+    const request = type === 'pdf'
+      ? this.resumeService.downloadResumePdf(this.resume.id)
+      : this.resumeService.downloadResumeWord(this.resume.id);
+
+    request.subscribe({
+      next: (blob) => {
+        const extension = type === 'pdf' ? 'pdf' : 'docx';
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `resume_${this.resume?.id}.${extension}`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+        this.downloading = false;
+      },
+      error: (error) => {
+        this.setBlobError(error, 'Download failed. Generate the AI resume first.');
+        this.downloading = false;
+      }
+    });
+  }
+
+  private setBlobError(error: any, fallback: string): void {
+    if (error.error instanceof Blob) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(String(reader.result));
+          this.downloadError = parsed.detail ?? fallback;
+        } catch {
+          this.downloadError = fallback;
+        }
+      };
+      reader.readAsText(error.error);
+      return;
+    }
+    this.downloadError = error.error?.detail ?? fallback;
+  }
+
+  private loadGeneratedResumeStatus(resumeId: number): void {
+    this.checkingGeneratedResume = true;
+    this.resumeService.getGeneratedResumeStatus(resumeId).subscribe({
+      next: (status) => {
+        this.hasGeneratedResume = status.has_generated_resume;
+        this.checkingGeneratedResume = false;
+      },
+      error: () => {
+        this.hasGeneratedResume = false;
+        this.checkingGeneratedResume = false;
       }
     });
   }

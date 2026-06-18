@@ -5,6 +5,8 @@ from app.auth.password_reset_model import PasswordResetToken  # noqa: F401
 from app.auth.routes import router as auth_router
 from app.config import get_settings
 from app.database import Base, engine
+from app.resume_generation.models import GeneratedResume  # noqa: F401
+from app.resume_generation.routes import router as resume_generation_router
 from app.resumes.routes import router as resumes_router
 from app.resumes import models as resume_models  # noqa: F401
 from app.users.models import User  # noqa: F401
@@ -28,6 +30,7 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(resumes_router)
+app.include_router(resume_generation_router)
 
 
 @app.get("/health")

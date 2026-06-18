@@ -488,6 +488,12 @@ select:focus {
   color: var(--success);
 }
 
+.alert-info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+}
+
 .loading-row {
   align-items: center;
   color: var(--muted);
@@ -538,6 +544,35 @@ select:focus {
   margin: 0 auto;
   max-width: 900px;
   padding: 42px;
+}
+
+.generated-preview {
+  margin-top: 18px;
+}
+
+.generate-actions-panel {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.raw-json-panel {
+  margin-top: 18px;
+}
+
+.raw-json-panel summary {
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.raw-json-panel pre {
+  background: #0f172a;
+  border-radius: 8px;
+  color: #e2e8f0;
+  overflow: auto;
+  padding: 16px;
 }
 
 .resume-preview-header {
@@ -654,7 +689,8 @@ select:focus {
   }
 
   .actions,
-  .nav-actions {
+  .nav-actions,
+  .generate-actions-panel {
     align-items: stretch;
     flex-direction: column;
   }
