@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     smtp_password: str = ""
     smtp_from_email: str = ""
     frontend_reset_password_url: str = "http://localhost:4200/reset-password"
+    azure_openai_endpoint: str = ""
+    azure_openai_api_key: str = ""
+    azure_openai_api_version: str = "2024-02-15-preview"
+    azure_openai_deployment_name: str = ""
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

@@ -134,3 +134,56 @@ The response is always generic:
 ```
 
 Manual table SQL is available in `create_password_reset_tokens_table.sql`.
+
+## Phase 3: AI Resume Generation
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Configure Azure OpenAI:
+
+```text
+AZURE_OPENAI_ENDPOINT=
+AZURE_OPENAI_API_KEY=
+AZURE_OPENAI_API_VERSION=2024-02-15-preview
+AZURE_OPENAI_DEPLOYMENT_NAME=
+```
+
+Manual generated resume table SQL:
+
+```text
+create_generated_resumes_table.sql
+```
+
+### Generate Resume
+
+`POST http://localhost:8000/resume-generation/{resume_id}/generate`
+
+Header:
+
+```text
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+### Download PDF
+
+`GET http://localhost:8000/resume-generation/{resume_id}/download/pdf`
+
+Header:
+
+```text
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+### Download Word
+
+`GET http://localhost:8000/resume-generation/{resume_id}/download/word`
+
+Header:
+
+```text
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
