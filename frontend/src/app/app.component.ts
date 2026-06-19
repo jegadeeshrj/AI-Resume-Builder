@@ -19,7 +19,6 @@ import { AuthService } from './core/services/auth.service';
             <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
             <a routerLink="/resumes" routerLinkActive="active-link">My Resumes</a>
             <a routerLink="/resumes/create" routerLinkActive="active-link">Create Resume</a>
-            <a routerLink="/dashboard" routerLinkActive="active-link">Profile</a>
             <button type="button" (click)="logout()">Logout</button>
           </nav>
         </aside>
@@ -29,7 +28,6 @@ import { AuthService } from './core/services/auth.service';
             <a class="brand" routerLink="/dashboard">AI Resume Builder</a>
             <div class="nav-actions">
               <span class="user-chip">{{ authService.getUserName() }}</span>
-              <button class="button button-outline" type="button" (click)="logout()">Logout</button>
             </div>
           </header>
           <router-outlet></router-outlet>
@@ -55,6 +53,7 @@ export class AppComponent implements OnInit {
       this.authService.me().subscribe({ error: () => undefined });
     }
   }
+
 
   logout(): void {
     this.authService.logout();
